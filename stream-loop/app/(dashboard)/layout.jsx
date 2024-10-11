@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "../globals.css"
-import { ThemeProvider } from "../components/theme-provider";
-import DashboardSidebar from "../components/DashboardSidebar";
-import DashboardHeader from "../components/DashboardHeader";
+import { ThemeProvider } from "@/components/theme-provider";
+import DashboardSidebar from "@/components/DashboardSidebar";
+import DashboardHeader from "@/components/DashboardHeader";
 
 const inter = Inter({ subsets: ["latin"] });
 

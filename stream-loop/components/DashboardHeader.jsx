@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ThemeToggle } from '../components/theme-toggle'
+import { ThemeToggle } from './theme-toggle'
 
 export default function DashboardHeader() {
   const [searchQuery, setSearchQuery] = useState('')
