@@ -13,7 +13,6 @@ startButton.addEventListener("click", () => {
   });
 
   mediaRecorder.ondataavailable = (e) => {
-    console.log("Binary Stream Available", e.data);
     socket.emit("binarystream", e.data);
   };
 
