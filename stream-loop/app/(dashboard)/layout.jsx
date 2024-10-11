@@ -6,11 +6,6 @@ import DashboardHeader from "../components/DashboardHeader";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Stream Loop - Dashboard",
-  description: "Manage your streams and content on Stream Loop.",
-};
-
 export default function DashboardLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
