@@ -57,30 +57,6 @@ export default function Header() {
         className="md:hidden"
       >
         <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3">
-          <Link
-            href="/dashboard"
-            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground transition-colors"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/stream"
-            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground transition-colors"
-          >
-            Go Live
-          </Link>
-          <Link
-            href="/analytics"
-            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground transition-colors"
-          >
-            Analytics
-          </Link>
-          <Link
-            href="/settings"
-            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary-foreground transition-colors"
-          >
-            Settings
-          </Link>
           <Button variant="secondary" asChild className="w-full mt-4">
             <Link href="/login">Sign In</Link>
           </Button>
