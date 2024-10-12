@@ -1,35 +1,68 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SERVER_URL } from "@/lib/constants";
 
 export default function Register() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const router = useRouter()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
+
+  const createRandomStreamKey = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const keyLength = 16;
+    let streamKey = "";
+
+    for (let i = 0; i < keyLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      streamKey += characters[randomIndex];
+    }
+    return streamKey;
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords don't match")
-      return
+      alert("Passwords don't match");
+      return;
     }
-    // Here you would typically send a request to your backend API
-    // For now, we'll just simulate a successful registration
-    console.log('Registering with:', name, email, password)
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // Redirect to dashboard after successful registration
-    router.push('/dashboard')
-  }
+
+    const userData = {
+      username: name,
+      email,
+      password,
+      streamKey: createRandomStreamKey(),
+    };
+
+    const response = await fetch(`${SERVER_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+    if (response.ok) {
+      router.push("/login");
+    }
+  };
 
   return (
     <div className="container mx-auto px-6 py-16 flex items-center justify-center min-h-screen">
@@ -42,7 +75,9 @@ export default function Register() {
         <Card>
           <CardHeader>
             <CardTitle>Create an account</CardTitle>
-            <CardDescription>Join Stream Loop and start streaming</CardDescription>
+            <CardDescription>
+              Join Stream Loop and start streaming
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,7 +123,9 @@ export default function Register() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full">Sign Up</Button>
+              <Button type="submit" className="w-full">
+                Sign Up
+              </Button>
             </form>
           </CardContent>
           <CardFooter>
@@ -102,5 +139,5 @@ export default function Register() {
         </Card>
       </motion.div>
     </div>
-  )
+  );
 }

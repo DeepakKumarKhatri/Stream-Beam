@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { SERVER_URL } from "@/lib/constants";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,13 +24,27 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send a request to your backend API
-    // For now, we'll just simulate a successful login
-    console.log("Logging in with:", email, password);
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Redirect to dashboard after successful login
-    router.push("/dashboard");
+
+    const userData = {
+      email,
+      password,
+    };
+
+    const response = await fetch(`${SERVER_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+    const token = data.token;
+    if (token && response.ok) {
+      localStorage.setItem("authToken", token);
+      router.push("/dashboard");
+    }
   };
 
   return (
