@@ -57,7 +57,6 @@ export default function HelpSupport() {
           <TabsList>
             <TabsTrigger value="faq">FAQ</TabsTrigger>
             <TabsTrigger value="contact">Contact Support</TabsTrigger>
-            <TabsTrigger value="documentation">Documentation</TabsTrigger>
           </TabsList>
 
           <TabsContent value="faq">
@@ -129,65 +128,6 @@ export default function HelpSupport() {
               <CardFooter>
                 <Button className="w-full">Submit Support Ticket</Button>
               </CardFooter>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="documentation">
-            <Card>
-              <CardHeader>
-                <CardTitle>Documentation</CardTitle>
-                <CardDescription>Explore our comprehensive guides and tutorials</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[400px]">
-                  <div className="space-y-4">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Getting Started Guide</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Learn the basics of setting up your stream and navigating the platform.</p>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline">Read Guide</Button>
-                      </CardFooter>
-                    </Card>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Advanced Streaming Techniques</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Dive deep into advanced features and optimization strategies.</p>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline">Explore Techniques</Button>
-                      </CardFooter>
-                    </Card>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">API Documentation</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Integrate Stream Loop into your applications with our comprehensive API.</p>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline">View API Docs</Button>
-                      </CardFooter>
-                    </Card>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Monetization Strategies</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Learn how to effectively monetize your content and grow your audience.</p>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline">Read Strategies</Button>
-                      </CardFooter>
-                    </Card>
-                  </div>
-                </ScrollArea>
-              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>

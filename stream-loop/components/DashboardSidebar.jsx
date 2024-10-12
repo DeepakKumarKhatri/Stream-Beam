@@ -48,25 +48,6 @@ export default function DashboardSidebar() {
             </span>
           </Link>
           <ul className="space-y-2 font-medium">
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
-                    pathname === item.href ? "bg-gray-100 dark:bg-gray-700" : ""
-                  }`}
-                >
-                  <motion.div
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <item.icon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                  </motion.div>
-                  <span className="ml-3">{item.label}</span>
-                </Link>
-              </li>
-            ))}
             <li>
               <button
                 onClick={toggleDropdown}
@@ -74,7 +55,7 @@ export default function DashboardSidebar() {
               >
                 <div className="flex items-center">
                   <Video className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                  <span className="ml-3">Streams</span>
+                  <span className="ml-3">My Streams</span>
                 </div>
                 {isDOpen ? (
                   <ChevronUp className="w-5 h-5 text-gray-500" />
@@ -107,6 +88,25 @@ export default function DashboardSidebar() {
                 </ul>
               )}
             </li>
+            {menuItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    pathname === item.href ? "bg-gray-100 dark:bg-gray-700" : ""
+                  }`}
+                >
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <item.icon className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                  </motion.div>
+                  <span className="ml-3">{item.label}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 

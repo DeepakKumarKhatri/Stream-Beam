@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Bell, User, Search, Settings } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useState } from "react";
+import { Bell, User, Search, Settings } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +12,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ThemeToggle } from './theme-toggle'
+} from "@/components/ui/dropdown-menu";
+import { ThemeToggle } from "./theme-toggle";
+import Link from "next/link";
 
 export default function DashboardHeader() {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <header className="bg-background border-b">
@@ -57,20 +58,20 @@ export default function DashboardHeader() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <Link href="/profile">Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <Link href="/settings">Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                Log out
+                <Link href="/login">Log out</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
     </header>
-  )
+  );
 }
