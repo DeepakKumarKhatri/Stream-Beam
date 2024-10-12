@@ -1,9 +1,0 @@
-services:
-  app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./:/home/app
-    ports:
-      - 7008:7008
