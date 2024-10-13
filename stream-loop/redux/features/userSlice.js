@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginApi } from "../../api/auth";
+import { CurrentUserAPI, LoginApi } from "../../api/auth";
 
 const initialState = {
   loading: false,
@@ -46,12 +46,26 @@ export const login = createAsyncThunk("/login", async (data, thunkAPI) => {
   try {
     const response = await LoginApi(data);
     storeToken(response.token);
-    console.log({response});
+    console.log({ response });
     return response;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
+
+export const fetchCurrentUser = createAsyncThunk(
+  "user/fetchCurrentUser",
+  async (_, thunkAPI) => {
+    try {
+      const response = await CurrentUserAPI();
+      console.log({ response });
+      // console.log(response.data);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 // create a thunk to handle the logout request
 export const logout = createAsyncThunk("/logout", async () => {
@@ -59,7 +73,6 @@ export const logout = createAsyncThunk("/logout", async () => {
   localStorage.removeItem("token");
   window.location.href = "/login";
 });
-
 
 const userSlice = createSlice({
   name: "user",
@@ -95,6 +108,20 @@ const userSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.error;
+      });
+
+    builder
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

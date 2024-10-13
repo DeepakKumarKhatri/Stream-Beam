@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BarChart,
   Bar,
@@ -13,48 +13,51 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts'
-import { Calendar } from '@/components/ui/calendar'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
+} from "recharts";
+import { Calendar } from "@/components/ui/calendar";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 
 // Mock data
 const recentStreams = [
   { id: 1, title: "My First Stream", date: "2023-05-15", viewers: 150 },
   { id: 2, title: "Q&A Session", date: "2023-05-18", viewers: 300 },
   { id: 3, title: "Gaming Night", date: "2023-05-20", viewers: 500 },
-]
+];
 
 const viewerData = [
-  { name: 'Mon', viewers: 400 },
-  { name: 'Tue', viewers: 300 },
-  { name: 'Wed', viewers: 520 },
-  { name: 'Thu', viewers: 400 },
-  { name: 'Fri', viewers: 600 },
-  { name: 'Sat', viewers: 750 },
-  { name: 'Sun', viewers: 680 },
-]
+  { name: "Mon", viewers: 400 },
+  { name: "Tue", viewers: 300 },
+  { name: "Wed", viewers: 520 },
+  { name: "Thu", viewers: 400 },
+  { name: "Fri", viewers: 600 },
+  { name: "Sat", viewers: 750 },
+  { name: "Sun", viewers: 680 },
+];
 
 const upcomingStreams = [
   { id: 1, title: "Weekly Update", date: new Date(2023, 5, 25, 14, 0) },
   { id: 2, title: "Collaboration Stream", date: new Date(2023, 5, 28, 20, 0) },
   { id: 3, title: "New Game Release", date: new Date(2023, 6, 1, 18, 0) },
-]
+];
 
 export default function Dashboard() {
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date());
+  const data = useSelector((state) => state.user);
+  const { username } = data?.user || {};
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold">Welcome back, Streamer!</h1>
-      
+      <h1 className="text-3xl font-bold">Welcome back, {username}!</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard title="Total Views" value="10,500" />
         <StatsCard title="Followers" value="1,200" />
         <StatsCard title="Stream Time" value="45h 30m" />
         <StatsCard title="Average Viewers" value="250" />
       </div>
-      
+
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -118,14 +121,17 @@ export default function Dashboard() {
               <CardContent>
                 <ul className="space-y-2">
                   {upcomingStreams.map((stream) => (
-                    <li key={stream.id} className="flex justify-between items-center">
+                    <li
+                      key={stream.id}
+                      className="flex justify-between items-center"
+                    >
                       <span>{stream.title}</span>
                       <Badge variant="secondary">
-                        {stream.date.toLocaleString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric', 
-                          hour: 'numeric', 
-                          minute: 'numeric' 
+                        {stream.date.toLocaleString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
                         })}
                       </Badge>
                     </li>
@@ -150,7 +156,7 @@ export default function Dashboard() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
 
 function StatsCard({ title, value }) {
@@ -169,5 +175,5 @@ function StatsCard({ title, value }) {
         </CardContent>
       </Card>
     </motion.div>
-  )
+  );
 }

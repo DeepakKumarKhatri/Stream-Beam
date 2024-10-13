@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { getToken } from "./features/userSlice";
 import { usePathname } from "next/navigation";
+import ReduxContextProvider from "./ReduxContextProvider";
 
 const StoreProvider = ({ children }) => {
   const pathname = usePathname();
@@ -38,7 +39,9 @@ const StoreProvider = ({ children }) => {
 
   return (
     <Provider store={store}>
-      <main>{children}</main>
+      <ReduxContextProvider>
+        <main>{children}</main>
+      </ReduxContextProvider>
     </Provider>
   );
 };
