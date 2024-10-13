@@ -1,7 +1,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-const http = require('http');
+const http = require("http");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const socketIo = require("socket.io");
@@ -16,10 +16,19 @@ dotenv.config();
 connectDB();
 var app = express();
 const server = http.createServer(app);
+
+// Update CORS settings
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
@@ -51,6 +60,19 @@ io.on("connection", (socket) => {
     io.to(streamId).emit("newChatMessage", message);
   });
 
+  // WebRTC signaling
+  socket.on("offer", (data) => {
+    socket.broadcast.emit("offer", data.offer);
+  });
+
+  socket.on("answer", (data) => {
+    socket.broadcast.emit("answer", data.answer);
+  });
+
+  socket.on("ice-candidate", (data) => {
+    socket.broadcast.emit("ice-candidate", data.candidate);
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
   });
@@ -71,5 +93,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+const PORT = process.env.PORT || 9000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;

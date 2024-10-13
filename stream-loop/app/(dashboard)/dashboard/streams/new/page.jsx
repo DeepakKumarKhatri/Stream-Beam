@@ -1,39 +1,65 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Loader2, AlertCircle, Check } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Slider } from '@/components/ui/slider'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import StreamPreview from "@/components/StreamPreview";
 
 const streamSchema = z.object({
-  title: z.string().min(3, { message: "Title must be at least 3 characters long" }).max(100, { message: "Title must not exceed 100 characters" }),
-  description: z.string().max(500, { message: "Description must not exceed 500 characters" }),
+  title: z
+    .string()
+    .min(3, { message: "Title must be at least 3 characters long" })
+    .max(100, { message: "Title must not exceed 100 characters" }),
+  description: z
+    .string()
+    .max(500, { message: "Description must not exceed 500 characters" }),
   category: z.string().min(1, { message: "Please select a category" }),
-  tags: z.string().refine(value => value.split(',').length <= 5, { message: "You can add up to 5 tags" }),
+  tags: z.string().refine((value) => value.split(",").length <= 5, {
+    message: "You can add up to 5 tags",
+  }),
   isPrivate: z.boolean(),
-  ageRestriction: z.enum(['all', '13+', '18+']),
+  ageRestriction: z.enum(["all", "13+", "18+"]),
   quality: z.string(),
   chatEnabled: z.boolean(),
   donationsEnabled: z.boolean(),
   subscriptionRequired: z.boolean(),
   bitrate: z.number().min(1000).max(8000),
-})
+});
 
 export default function NewStream() {
-  const [isChecking, setIsChecking] = useState(false)
-  const [streamKey, setStreamKey] = useState(null)
+  const [streamSettings, setStreamSettings] = useState(null);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(streamSchema),
@@ -43,23 +69,18 @@ export default function NewStream() {
       category: "",
       tags: "",
       isPrivate: false,
-      ageRestriction: 'all',
-      quality: '720p',
+      ageRestriction: "all",
+      quality: "720p",
       chatEnabled: true,
       donationsEnabled: true,
       subscriptionRequired: false,
       bitrate: 4000,
     },
-  })
+  });
 
   function onSubmit(values) {
-    setIsChecking(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsChecking(false)
-      setStreamKey("STREAM-KEY-12345")
-      console.log(values)
-    }, 2000)
+    setStreamSettings(values);
+    setIsFormSubmitted(true);
   }
 
   return (
@@ -76,7 +97,9 @@ export default function NewStream() {
             <Card>
               <CardHeader>
                 <CardTitle>Stream Details</CardTitle>
-                <CardDescription>Configure the basic details of your stream</CardDescription>
+                <CardDescription>
+                  Configure the basic details of your stream
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -86,9 +109,14 @@ export default function NewStream() {
                     <FormItem>
                       <FormLabel>Stream Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your stream title" {...field} />
+                        <Input
+                          placeholder="Enter your stream title"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormDescription>This will be the main title displayed for your stream.</FormDescription>
+                      <FormDescription>
+                        This will be the main title displayed for your stream.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -100,9 +128,14 @@ export default function NewStream() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Describe your stream" {...field} />
+                        <Textarea
+                          placeholder="Describe your stream"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormDescription>Provide a brief description of what viewers can expect.</FormDescription>
+                      <FormDescription>
+                        Provide a brief description of what viewers can expect.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -113,7 +146,10 @@ export default function NewStream() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Category</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a category" />
@@ -127,7 +163,9 @@ export default function NewStream() {
                           <SelectItem value="esports">Esports</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormDescription>Choose the category that best fits your stream.</FormDescription>
+                      <FormDescription>
+                        Choose the category that best fits your stream.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -139,9 +177,14 @@ export default function NewStream() {
                     <FormItem>
                       <FormLabel>Tags</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter tags, separated by commas" {...field} />
+                        <Input
+                          placeholder="Enter tags, separated by commas"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormDescription>Add up to 5 tags to help viewers find your stream.</FormDescription>
+                      <FormDescription>
+                        Add up to 5 tags to help viewers find your stream.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -152,7 +195,9 @@ export default function NewStream() {
             <Card>
               <CardHeader>
                 <CardTitle>Stream Settings</CardTitle>
-                <CardDescription>Configure advanced settings for your stream</CardDescription>
+                <CardDescription>
+                  Configure advanced settings for your stream
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -161,7 +206,9 @@ export default function NewStream() {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Private Stream</FormLabel>
+                        <FormLabel className="text-base">
+                          Private Stream
+                        </FormLabel>
                         <FormDescription>
                           Only allow specific users to view your stream
                         </FormDescription>
@@ -199,17 +246,13 @@ export default function NewStream() {
                             <FormControl>
                               <RadioGroupItem value="13+" />
                             </FormControl>
-                            <FormLabel className="font-normal">
-                              13+
-                            </FormLabel>
+                            <FormLabel className="font-normal">13+</FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="18+" />
                             </FormControl>
-                            <FormLabel className="font-normal">
-                              18+
-                            </FormLabel>
+                            <FormLabel className="font-normal">18+</FormLabel>
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
@@ -223,7 +266,10 @@ export default function NewStream() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Stream Quality</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select quality" />
@@ -236,7 +282,9 @@ export default function NewStream() {
                           <SelectItem value="360p">360p</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormDescription>Choose the quality of your stream.</FormDescription>
+                      <FormDescription>
+                        Choose the quality of your stream.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -256,7 +304,10 @@ export default function NewStream() {
                           onValueChange={(value) => field.onChange(value[0])}
                         />
                       </FormControl>
-                      <FormDescription>Adjust the bitrate of your stream. Current: {field.value} kbps</FormDescription>
+                      <FormDescription>
+                        Adjust the bitrate of your stream. Current:{" "}
+                        {field.value} kbps
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -287,7 +338,9 @@ export default function NewStream() {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Enable Donations</FormLabel>
+                        <FormLabel className="text-base">
+                          Enable Donations
+                        </FormLabel>
                         <FormDescription>
                           Allow viewers to send donations during your stream
                         </FormDescription>
@@ -307,7 +360,9 @@ export default function NewStream() {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base">Subscribers Only</FormLabel>
+                        <FormLabel className="text-base">
+                          Subscribers Only
+                        </FormLabel>
                         <FormDescription>
                           Only allow subscribers to view your stream
                         </FormDescription>
@@ -322,44 +377,15 @@ export default function NewStream() {
                   )}
                 />
               </CardContent>
-              <CardFooter>
-                <Button type="submit" disabled={isChecking}>
-                  {isChecking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {isChecking ? "Checking..." : "Start Stream"}
-                </Button>
-              </CardFooter>
             </Card>
+            <Button type="submit">Save Settings and Start Stream</Button>
           </form>
         </Form>
 
-        {streamKey && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Alert className="mt-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Stream Key Generated</AlertTitle>
-              <AlertDescription>
-                Your stream key is: <strong>{streamKey}</strong>. Keep this private and do not share it with anyone.
-              </AlertDescription>
-            </Alert>
-          </motion.div>
+        {isFormSubmitted && streamSettings && (
+          <StreamPreview streamSettings={streamSettings} />
         )}
-
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Stream Preview</CardTitle>
-            <CardDescription>Preview how your stream will look to viewers</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-              <p className="text-gray-500 dark:text-gray-400">Stream preview will appear here</p>
-            </div>
-          </CardContent>
-        </Card>
       </motion.div>
     </div>
-  )
+  );
 }
