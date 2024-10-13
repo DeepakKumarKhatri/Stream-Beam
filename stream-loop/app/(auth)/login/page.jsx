@@ -15,35 +15,32 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SERVER_URL } from "@/lib/constants";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/features/userSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const userData = {
+    const loginData = {
       email,
       password,
     };
 
-    const response = await fetch(`${SERVER_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const resultAction = await dispatch(login(loginData));
 
-    const data = await response.json();
-    const token = data.token;
-    if (token && response.ok) {
-      localStorage.setItem("authToken", token);
+    if (login.fulfilled.match(resultAction)) {
       router.push("/dashboard");
+      console.log("Login successful:", resultAction.payload);
+    } else {
+      console.error("Login failed:", resultAction.payload.error);
+      setLoginError(resultAction.payload.error);
     }
   };
 
@@ -57,6 +54,11 @@ export default function Login() {
       >
         <Card>
           <CardHeader>
+            {loginError && (
+              <p className="font-bold text-[15px] underline text-red-600 text-center p-2">
+                {loginError}!!
+              </p>
+            )}
             <CardTitle>Welcome back</CardTitle>
             <CardDescription>
               Sign in to your Stream Loop account
