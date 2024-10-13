@@ -17,12 +17,6 @@ const streamSchema = new mongoose.Schema({
     ageRestrictions: {
       type: String,
     },
-    streamQuality: {
-      type: String,
-    },
-    bitRateKBPS: {
-      type: String,
-    },
     enableChat: {
       type: Boolean,
       default: true,

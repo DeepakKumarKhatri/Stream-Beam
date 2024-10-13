@@ -8,6 +8,9 @@ export const metadata = {
   title: "Stream Loop - Advanced Live Streaming Platform",
   description:
     "Empower your live streams with Stream Loop, the next-generation platform for content creators.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({ children }) {

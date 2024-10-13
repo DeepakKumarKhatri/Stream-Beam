@@ -15,9 +15,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "./theme-toggle";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/features/userSlice";
 
 export default function DashboardHeader() {
   const [searchQuery, setSearchQuery] = useState("");
+  const data = useSelector((state) => state.user);
+  const { username, email } = data?.user || {};
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    dispatch(logout());
+  };
 
   return (
     <header className="bg-background border-b">
@@ -49,9 +58,9 @@ export default function DashboardHeader() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">username</p>
+                  <p className="text-sm font-medium leading-none">{username}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    user@example.com
+                    {email}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -65,7 +74,7 @@ export default function DashboardHeader() {
                 <Link href="/settings">Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
                 <Link href="/login">Log out</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
