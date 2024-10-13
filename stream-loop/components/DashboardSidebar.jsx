@@ -19,6 +19,8 @@ import {
   Plus,
   Radio,
 } from "lucide-react";
+import StreamLoopLogo from "./StreamLoopLogo";
+import { useSelector } from "react-redux";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", href: "/dashboard" },
@@ -32,6 +34,7 @@ export default function DashboardSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isDOpen, setIsDOpen] = useState(false);
+  const { currentTheme } = useSelector((state) => state.system);
 
   // Function to toggle the sidebar
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -43,9 +46,12 @@ export default function DashboardSidebar() {
       <aside className="hidden md:block fixed top-0 left-0 w-64 h-full bg-card text-card-foreground z-50">
         <div className="h-full px-3 py-4 overflow-y-auto">
           <Link href="/dashboard" className="flex items-center pl-2.5 mb-5">
-            <span className="self-center text-xl font-semibold whitespace-nowrap">
-              Stream Loop
-            </span>
+            <div className="flex m-2">
+              <StreamLoopLogo width={40} height={40} theme={currentTheme} />
+              <span className="self-center text-xl font-semibold whitespace-nowrap ml-2">
+                Stream Loop
+              </span>
+            </div>
           </Link>
           <ul className="space-y-2 font-medium">
             <li>
@@ -147,9 +153,16 @@ export default function DashboardSidebar() {
                     href="/dashboard"
                     className="flex items-center pl-2.5 mb-5"
                   >
-                    <span className="self-center text-xl font-semibold whitespace-nowrap">
-                      Stream Loop
-                    </span>
+                    <div className="flex">
+                      <StreamLoopLogo
+                        width={30}
+                        height={30}
+                        theme={currentTheme}
+                      />
+                      <span className="self-center text-xl font-semibold whitespace-nowrap ml-2">
+                        Stream Loop
+                      </span>
+                    </div>
                   </Link>
                   <ul className="space-y-2 font-medium">
                     {menuItems.map((item) => (
